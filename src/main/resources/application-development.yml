@@ -1,0 +1,21 @@
+spring:
+  cache:
+    type: none
+  datasource:
+    url: jdbc:postgresql://172.16.17.18:5433/polim
+    username: polim
+    password: polim
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+application:
+  logstash:
+    host: localhost
+    port: 541

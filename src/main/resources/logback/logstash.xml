@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<included>
+    <springProperty scope="local" name="logstashHost" source="application.logback.host"
+                    defaultValue="localhost"/>
+    <springProperty scope="local" name="logstashPort" source="application.logback.port"
+                    defaultValue="6996"/>
+    <springProperty scope="local" name="appName" source="spring.application.name"
+                    defaultValue="gobiz"/>
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>${logstashHost}:${logstashPort}</destination>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc/>
+                <context/>
+                <version/>
+                <logLevel/>
+                <loggerName/>
+                <pattern>
+                    <pattern>
+                        {
+                        "application": "${appName}"
+                        }
+                    </pattern>
+                </pattern>
+                <threadName/>
+                <message/>
+                <logstashMarkers/>
+                <arguments/>
+                <stackTrace/>
+            </providers>
+        </encoder>
+    </appender>
+</included>

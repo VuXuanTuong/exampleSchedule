@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: gobiz-hygeia
+  profiles:
+    active: development
+  main:
+    banner-mode: console
+    web-application-type: servlet
+  jpa:
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+management:
+  endpoints:
+    jmx:
+      domain: vn.gobiz.hygeia
+      unique-names: true
+
+logging:
+  file:
+    max-size: 6MB
+    max-history: 9
+

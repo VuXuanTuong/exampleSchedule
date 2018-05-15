@@ -1,0 +1,10 @@
+spring:
+  cache:
+    type: none
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+

@@ -1,0 +1,55 @@
+image: docker:dind
+services:
+  - docker:dind
+
+variables:
+  DOCKER_DRIVER: overlay
+  DOCKER_USER: hieeus
+  DOCKER_NAME: hygeia
+  DOCKER_REPO: gobiz:hygeia-latest
+  EXTERNAL_PORT: 10000
+  NEXUS_REPO: http://172.16.17.18:9981/repository/maven-snapshots/
+
+stages:
+  - build
+  - package
+  - deploy
+
+gradle-build:
+  image: gradle:alpine
+  stage: build
+  only:
+    - master
+  script:
+    - gradle build
+  artifacts:
+    paths:
+      - build/libs/*.jar
+
+docker-build:
+  stage: package
+  only:
+    - master
+  script:
+    - docker rmi -f $DOCKER_USER/$DOCKER_REPO || true
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - docker build -t $DOCKER_USER/$DOCKER_REPO .
+    - docker push $DOCKER_USER/$DOCKER_REPO
+
+nexus-publish:
+  image: gradle:alpine
+  stage: package
+  only:
+    - master
+  script:
+    - gradle publish
+
+staging-deploy:
+  stage: deploy
+  only:
+    - master
+  script:
+    - docker stop $DOCKER_NAME || true && docker rm $DOCKER_NAME || true
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - docker run --name $DOCKER_NAME
+      -p $EXTERNAL_PORT:8080 -d $DOCKER_USER/$DOCKER_REPO
