@@ -2,7 +2,7 @@ spring:
   cache:
     type: none
   datasource:
-    url: jdbc:postgresql://172.16.17.18:5433/polim
+    url: jdbc:postgresql://172.16.17.18:5433/eagle
     username: polim
     password: polim
     driver-class-name: org.postgresql.Driver
@@ -19,3 +19,6 @@ application:
   logstash:
     host: localhost
     port: 541
+  hygeia:
+    cron:
+      contact-Revoke-Task: '*/10 * * * * *'

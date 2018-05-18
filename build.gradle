@@ -42,6 +42,7 @@ dependencies {
     compile('net.logstash.logback:logstash-logback-encoder:5.0')
     compile ('org.zalando:problem:0.20.2')
     compile ('org.zalando:jackson-datatype-problem:0.20.2')
+    compile group: 'org.projectreactor', name: 'reactor-spring', version: '1.0.0.RELEASE'
 }
 
 configurations {
